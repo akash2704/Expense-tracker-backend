@@ -86,6 +86,7 @@ collected_files.txt
 uv.lock
 script.sh
 readme.sh
+ec2-setup.sh
 # The uv.lock file can be committed to ensure reproducible builds.
 # If you want to ignore it, uncomment the line below.
 # uv.lock

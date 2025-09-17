@@ -25,6 +25,7 @@ jobs:
     - name: Run tests
       env:
         SECRET_KEY: test_secret_key
+        DATABASE_URL: sqlite:///:memory:
         TEST_ENV: "1"
       run: uv run pytest -v
 
