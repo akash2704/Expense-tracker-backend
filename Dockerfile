@@ -80,7 +80,7 @@ USER appuser
 COPY --chown=appuser:appuser pyproject.toml ./
 
 # Install only production dependencies
-RUN uv sync --no-dev --frozen
+RUN uv sync --locked
 
 # Copy source code
 COPY --chown=appuser:appuser src/ ./src/
