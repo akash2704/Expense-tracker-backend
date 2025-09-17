@@ -38,7 +38,7 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Copy dependency files
-COPY --chown=appuser:appuser pyproject.toml ./
+COPY --chown=appuser:appuser pyproject.toml uv.lock ./
 
 # Install dependencies including dev dependencies
 RUN uv sync --all-extras
@@ -77,7 +77,7 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Copy dependency files
-COPY --chown=appuser:appuser pyproject.toml ./
+COPY --chown=appuser:appuser pyproject.toml uv.lock ./
 
 # Install only production dependencies
 RUN uv sync --locked
