@@ -1,0 +1,10 @@
+# Development-specific overrides
+services:
+  app-dev:
+    environment:
+      - DEBUG=1
+      - LOG_LEVEL=debug
+    volumes:
+      - .:/app  # Read-write for development
+      - /app/.venv  # Exclude virtual environment
+    command: ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--log-level", "debug"]

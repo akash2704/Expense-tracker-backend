@@ -1,0 +1,18 @@
+line-length = 88
+target-version = "py312"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # mccabe (complexity)
+    "B",  # bugbear (bug-prone patterns)
+    "UP"  # pyupgrade (modern Python syntax)
+]
+ignore = [
+    "E501",  # Line length (handled by auto-formatting)
+    "B008"   # Allow FastAPI dependency injection
+]
+
+[isort]
+known-first-party = ["src"]
