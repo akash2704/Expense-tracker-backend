@@ -1,5 +1,5 @@
 # Expense Tracker Backend
-
+[![CI](https://github.com/akash2704/Expense-tracker-backend/actions/workflows/ci.yml/badge.svg)](https://github.com/akash2704/Expense-tracker-backend/actions)
 A FastAPI-based backend for managing users, budgets, and expenses with JWT authentication and PostgreSQL support.
 This project uses **uv** for dependency management and **Docker** for containerization.
 

@@ -84,7 +84,7 @@ RUN uv sync --no-dev --frozen
 
 # Copy source code
 COPY --chown=appuser:appuser src/ ./src/
-COPY --chown=appuser:appuser alembic/ ./alembic/
+COPY --chown=appuser:appuser migrations/ ./migrations/
 COPY --chown=appuser:appuser alembic.ini ./
 
 # Clean UV cache to reduce image size
