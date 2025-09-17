@@ -25,7 +25,7 @@ jobs:
     - name: Run tests
       env:
         SECRET_KEY: test_secret_key
-        DATABASE_URL: sqlite:///:memory:
+        DATABASE_URL: "sqlite:///:memory:"
         TEST_ENV: "1"
       run: uv run pytest -v
 
@@ -42,7 +42,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd /home/ubuntu/expense-tracker
+          cd /home/ubuntu/Expense-tracker-backend
           git pull origin main
           docker-compose --profile prod down
           docker-compose --profile prod up --build -d
