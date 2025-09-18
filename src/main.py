@@ -20,6 +20,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Add CORS middleware
 origins = config.CORS_ORIGINS.split(",")
+print(f"CORS Origins: {origins}")  # Debug log
 
 app.add_middleware(
     CORSMiddleware,
