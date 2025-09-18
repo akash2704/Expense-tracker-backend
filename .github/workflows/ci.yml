@@ -28,3 +28,8 @@ jobs:
       run: uv run pytest
       env:
         TEST_ENV: true
+        SECRET_KEY: test-secret-key
+        DATABASE_URL: sqlite:///test.db
+        ACCESS_TOKEN_EXPIRE_MINUTES: 30
+        ALGORITHM: HS256
+        CORS_ORIGINS: "*"
