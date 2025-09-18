@@ -1,14 +1,22 @@
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 from src.config import config
-
 from src.db.database import Base, init_database
 from src.routers import auth, budget, expense
 
+# Create rate limiter
+limiter = Limiter(key_func=get_remote_address)
 app: FastAPI = FastAPI(title="Expense Tracker API")
+
+# Add rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Add CORS middleware
 origins = config.CORS_ORIGINS.split(",")
@@ -39,11 +47,13 @@ if not os.getenv("TEST_ENV"):
         Base.metadata.create_all(bind=engine)
 
 @app.get("/")
-async def root():
+@limiter.limit("10/minute")
+async def root(request: Request):
     """Health check endpoint"""
     return {"message": "Expense Tracker API is running"}
 
 @app.get("/health")
-async def health_check():
+@limiter.limit("30/minute")
+async def health_check(request: Request):
     """Health check endpoint for load balancer"""
     return {"status": "healthy"}

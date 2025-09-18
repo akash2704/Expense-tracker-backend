@@ -1,10 +1,10 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, render-deployment ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, render-deployment ]
 
 jobs:
   test:
@@ -13,36 +13,18 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Install uv
-      uses: astral-sh/setup-uv@v2
-    
     - name: Set up Python
-      run: uv python install 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
+    
+    - name: Install uv
+      run: pip install uv
     
     - name: Install dependencies
-      run: uv sync --all-extras
+      run: uv sync
     
     - name: Run tests
+      run: uv run pytest
       env:
-        SECRET_KEY: test_secret_key
-        DATABASE_URL: "sqlite:///:memory:"
-        TEST_ENV: "1"
-      run: uv run pytest -v
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    steps:
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ubuntu
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          cd /home/ubuntu/Expense-tracker-backend
-          git pull origin main
-          docker-compose --profile prod down
-          docker-compose --profile prod up --build -d
+        TEST_ENV: true
